@@ -1,0 +1,117 @@
+<div *ngIf="entities$ | async as entities">
+  <ng-container
+    *ngIf="entities.length > 0 && entities[0].type === 'BORROWING_REQUEST'; then borrowingtasklist; else noentities"></ng-container>
+
+  <ng-template #noentities>
+    <div class="highlight">To use this app, navigate to the Borrowing Requests page in Alma.</div>
+  </ng-template>
+
+  <ng-template #borrowingtasklist>
+    <div *ngIf="!hasSettings" class="highlight">To use this app, you must first configure the Partner Code under the
+      configuration.</div>
+    <div *ngIf="hasSettings">
+      <div class="eca-actions">
+        <mat-checkbox class="select-all-checkbox"
+          (change)="$event.checked ? onSelectAllClicked() : requests.deselectAll()">Select all</mat-checkbox>
+        <div class="request-all-button" *ngIf="requests.selectedOptions.selected.length > 0">
+          <button mat-flat-button class="primary" color="primary"
+            (click)="onBulkPlaceOrderClicked($event, requests.selectedOptions.selected)"
+            [disabled]="requests.selectedOptions.selected.length === 0 && !loading">Request all
+            {{requests.selectedOptions.selected.length}} items</button>
+        </div>
+      </div>
+      <mat-selection-list #requests multiple [(ngModel)]="optionsSelected"
+        (selectionChange)="onSelectedChanged($event)">
+        <mat-list-option checkboxPosition="before" *ngFor="let entity of pageEntities" [value]="entity"
+          [ngClass]="(!loading && isAvail(entity.id) && !isMissingData(entity.id)) ? 'entity-option' : 'entity-option-disabled'">
+          <div class="request-info">
+            <span class="request-info-title" color="primary">{{entity.description}}</span>
+            <span class="request-info-author"
+              *ngIf="getEntityAuthor(entity.id) && getEntityAuthor(entity.id)!=''">{{getEntityAuthor(entity.id)}}</span>
+            <div class="request-info-field"
+              *ngIf="getEntityJournalTitle(entity.id) && getEntityJournalTitle(entity.id)!=''">
+              <span class="request-info-field-key">Journal title: </span>
+              <span class="request-info-field-value">{{getEntityJournalTitle(entity.id)}}</span>
+            </div>
+            <div class="request-info-field"
+              *ngIf="getEntityPublication(entity.id) && getEntityPublication(entity.id)!=''">
+              <span class="request-info-field-key">Publication: </span>
+              <span class="request-info-field-value">{{getEntityPublication(entity.id)}}</span>
+            </div>
+            <div class="request-info-field" *ngIf="getEntityPages(entity.id) && getEntityPages(entity.id)!=''">
+              <span class="request-info-field-key">Pages: </span>
+              <span class="request-info-field-value">{{getEntityPages(entity.id)}}</span>
+            </div>
+            <!-- Level of service dropdown disabled for now; kept for future use
+            <div class="request-info-field" (click)="$event.stopPropagation()"
+              *ngIf="!loading && !isPhysical(entity.id) && isAvail(entity.id) && !isMissingData(entity.id) && getOrderStatus(entity.id) != 'failed' && getOrderStatus(entity.id) != 'done' && getEntityOrderStatus(entity.id) != 'loading'">
+              <span class="request-info-field-key">Level of service: </span>
+              <mat-form-field class="level-of-service-select">
+                <mat-select [value]="getLevelOfService(entity.id)"
+                  (selectionChange)="onLevelOfServiceChanged(entity.id, $event.value)">
+                  <mat-option *ngFor="let option of levelOfServiceOptions" [value]="option">{{option}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            -->
+            <div class="button-msg-section">
+              <div *ngIf="loading || !isPriceLoaded(entity.id) || getEntityOrderStatus(entity.id) == 'loading' && getOrderStatus(entity.id) != 'done'">
+                <mat-spinner diameter="25"></mat-spinner>
+              </div>
+              <div class="request-warning-msg" *ngIf="!isPhysical(entity.id) && getPriceErrorMsg(entity.id) && !isMissingData(entity.id) "
+                matTooltip={{getOrderErrorMsg(entity.id)}} matTooltipPosition="above" matTooltipClass="popup">
+                <mat-icon>error</mat-icon>
+                Error
+              </div>
+              <div class="request-error-msg" *ngIf="!loading && isPhysical(entity.id)">
+                <mat-icon>warning</mat-icon>
+                <span> Physical materials cannot be requested</span>
+              </div>
+              <div class="request-error-msg" *ngIf="!loading && !isPhysical(entity.id)  && isMissingData(entity.id)">
+                <mat-icon>warning</mat-icon>
+                <span> The request must include an ISBN/ISSN/OCLC</span>
+              </div>
+              <div class="request-error-msg"
+                *ngIf="!loading && !isPhysical(entity.id) && !isAvail(entity.id) && !isMissingData(entity.id) && !getPriceErrorMsg(entity.id) && getEntityOrderStatus(entity.id) != 'loading' && getEntityReadyStatus(entity.id) == true">
+                <mat-icon>warning</mat-icon>
+                Not in Linda Hall collection
+              </div>
+              <div class="request-error-msg" *ngIf="getOrderStatus(entity.id) == 'failed'"
+                matTooltip="{{ getOrderErrorMsg(entity.id) }}" matTooltipPosition="above" matTooltipClass="popup">
+                <mat-icon>cancel</mat-icon>
+                Failed to submit the request
+              </div>
+              <div class="request-success-msg" *ngIf="getOrderStatus(entity.id) == 'done'">
+                <mat-icon>check_circle</mat-icon>
+                The request was successfully submitted
+              </div>
+              <div class="request-price-button"
+                *ngIf="!loading && !isPhysical(entity.id) && isAvail(entity.id) && !isMissingData(entity.id) && getOrderStatus(entity.id) != 'failed' && getOrderStatus(entity.id) != 'done' && getEntityOrderStatus(entity.id) != 'loading'">
+				        <button mat-flat-button class="primary" color="primary"
+                  (click)="onPlaceOrderClicked($event, entity.id)">Request PDF ${{getEntityPrice(entity.id)}}</button>
+              </div>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-list-option>
+      </mat-selection-list>
+      <div class="footer">
+        <div class="footer-text">
+          <div class="footer-key">
+            <span>The displayed fee is only the base fee. Additional fees may apply. See below for a breakdown of any
+              additional fees.</span>
+          </div>
+          <ul>
+            <li>Rush Service Fee: We make every effort to fill requests within 24 hours however, for urgent requests,
+              you may opt for a 3-hour delivery for an additional $20 or a 1-hour delivery for an additional $100.
+            </li>
+            <li>Any request over 50 pages will incur an additional 25¢ per page.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>
+<div class="loading-shade" *ngIf="loading">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>

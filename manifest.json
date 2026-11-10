@@ -1,0 +1,29 @@
+{
+   "id": "linda-hall-cloudapp",
+   "title": "Linda Hall",
+   "subtitle": "Cloud app for Linda Hall Library",
+   "author": "Gal Turgeman",
+   "description": "Linda Hall cloudapp",
+   "icon": {
+      "type": "url",
+      "value": "/assets/The_Linda_Hall_Logo.png"
+   },
+   "pages": {
+      "config": "/#/configuration/"
+   },
+   "contentSecurity": {
+      "connectSrc": [
+         "https://lindahall.alma.exlibrisgroup.com/",
+         "https://api-ap.exldevnetwork.net/proxy",
+         "https://api-ap.exldevnetwork.net/proxy/view",
+         "https://api-ap.exldevnetwork.net/proxy/view/sru",
+         "https://api-ap.exldevnetwork.net/proxy/view/sru/01LINDAHALL_INST/",
+         "http://*.corp.exlibrisgroup.com:4200",
+         "http://*.corp.exlibrisgroup.com:1802",
+         "https://*.alma.exlibrisgroup.com",
+         "http://localhost:4200",
+         "https://il-galt-vm:4200",
+         "http://il-galt-vm:4200"
+      ]
+   }
+}

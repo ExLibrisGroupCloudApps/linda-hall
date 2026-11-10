@@ -1,0 +1,243 @@
+::ng-deep .mat-pseudo-checkbox {
+  align-self: flex-start;
+  margin-top: 1em;
+}
+
+::ng-deep .mat-list-item-disabled {
+  background-color: transparent !important;
+}
+
+.order-button {
+  margin-bottom: 1em;
+}
+
+.entity-option-disabled {
+  cursor: default !important;
+
+  ::ng-deep .mat-pseudo-checkbox {
+    color: #b0b0b0;
+    cursor: default !important;
+  }
+}
+
+.eca-actions {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between !important;
+
+  .select-all-checkbox {
+    align-self: flex-start;
+    padding-left: 16px;
+
+    ::ng-deep .mat-checkbox-label {
+      font-size: 16px;
+      font-weight: 400;
+      color: #314456;
+    }
+
+    ::ng-deep .mat-checkbox-frame {
+      border-width: 2px !important;
+    }
+  }
+
+  .request-all-button {
+    align-self: flex-end;
+  }
+}
+
+.request-info {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em !important;
+  margin-bottom: 1em !important;
+}
+
+.request-info-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 14px;
+  color: #5e5e5e;
+  line-height: 1.3em;
+}
+
+.request-info-field-key {
+  font-weight: 400;
+  margin-right: 8px;
+}
+
+.request-info-field-value {
+  font-weight: 300;
+  margin-right: 8px;
+}
+
+.level-of-service-select {
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1.3em;
+  width: auto;
+  margin: 0;
+  vertical-align: middle;
+
+  ::ng-deep .mat-form-field-wrapper {
+    padding: 0;
+    margin: 0;
+  }
+
+  ::ng-deep .mat-form-field-flex {
+    align-items: center;
+    padding: 0;
+  }
+
+  ::ng-deep .mat-form-field-infix {
+    width: auto;
+    min-width: 130px;
+    padding: 0;
+    border-top: 0;
+    font-size: 14px;
+    line-height: 1.3em;
+  }
+
+  ::ng-deep .mat-form-field-underline,
+  ::ng-deep .mat-form-field-subscript-wrapper {
+    display: none;
+  }
+
+  ::ng-deep .mat-select-value,
+  ::ng-deep .mat-select-arrow {
+    font-size: 14px;
+    color: #5e5e5e;
+  }
+
+  ::ng-deep .mat-select-value-text,
+  ::ng-deep .mat-select-min-line {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: nowrap;
+  }
+}
+
+.request-info-title {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 0.5em;
+  color: #314456;
+}
+
+.request-info-author {
+  font-size: 16px;
+  font-weight: 300;
+  margin-bottom: 0.5em;
+}
+
+.request-price-button {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5em;
+  color: green;
+}
+
+.request-error-msg {
+  width: flex;
+  flex-direction: row;
+  justify-content: center;
+  border: 1.5px solid #f44336;
+  border-radius: 5px;
+  padding: 5px;
+  border-color: #f44336;
+  margin-top: 0.5em;
+  background-color: transparent;
+  padding: 5px;
+  align-items: center;
+  text-align: center;
+  color: #f44336;
+
+  mat-icon {
+    color: #f44336;
+    font-size: 18px;
+    height: 19px !important;
+    width: 20px !important;
+    vertical-align: text-bottom;
+  }
+}
+
+.request-success-msg {
+  width: flex;
+  flex-direction: row;
+  border-radius: 5px;
+  margin-top: 0.5em;
+  background-color: #ddffdd;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+
+  mat-icon {
+    margin-left: 5px;
+    margin-right: 5px;
+    color: #008000;
+  }
+}
+
+.request-warning-msg {
+  width: flex;
+  flex-direction: row;
+  justify-content: center;
+  border: 1.5px solid #ce6d28;
+  border-radius: 5px;
+  padding: 5px;
+  border-color: #ce6d28;
+  margin-top: 0.5em;
+  background-color: transparent;
+  padding: 5px;
+  align-items: center;
+  text-align: center;
+  color: #ce6d28;
+
+  mat-icon {
+    color: #ce6d28;
+    font-size: 18px;
+    height: 19px !important;
+    width: 20px !important;
+    vertical-align: text-bottom;
+  }
+}
+
+.footer {
+  background-color: #E0E0E0;
+  border-radius: 5px;
+
+  .footer-text {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em;
+    line-height: 150%;
+    color: black;
+
+    .footer-key {
+      font-weight: 400;
+    }
+
+    .footer-value {
+      padding-bottom: 1em;
+      font-weight: 900;
+    }
+  }
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  padding-left: 1em;
+  line-height: 150%;
+
+  ::ng-deep ul {
+    padding: inherit;
+  }
+}
+
+::ng-deep .mat-tooltip.popup {
+  background-color: #314456 !important;
+  opacity: 0.9 !important;
+  font-size: 1.1em !important;
+}
